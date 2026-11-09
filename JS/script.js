@@ -16,7 +16,12 @@ async function searchWeather() {
                         console.log(latitude);
                         console.log(longitude);
                      });
-    
+    const marocserch = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=auto`) 
+                     .then((results) => results.json())
+                     .then((data) => {
+                       console.log(data)
+                     }) 
+
     console.log(cityName);
 }
 
