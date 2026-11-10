@@ -2,6 +2,7 @@ const city = document.querySelector('#city')
 const search = document.querySelector('#search')
 const loading = document.querySelector('#loading')
 const icon = document.querySelector('#icon');
+const forecast = document.querySelector('#forecast')
 
 const WEATHER_CODES = {
     0: { label: "Ciel dégagé", icon: "☀️" },
@@ -72,6 +73,10 @@ fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${l
     } , 2000);
 }
 
+
+function displayForecast() {
+    
+}
 
 
 search.addEventListener("click", searchWeather);
