@@ -1,6 +1,7 @@
 const city = document.querySelector('#city')
 const search = document.querySelector('#search')
 const loading = document.querySelector('#loading')
+const forecast = document.querySelector('#forecast');
 
 const WEATHER_CODES = {
     0: { label: "Ciel dégagé", icon: "☀️" },
@@ -51,26 +52,17 @@ async function searchWeather() {
     const latitude = cityserch.latitude;
     const longitude = cityserch.longitude;
 
-    const marocserch = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`)
-        .then((results) => results.json())
-        .then((data) => {
-            document.querySelector('#city-name').textContent = cityName;
+const marocserch = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&forecast_days=5&timezone=auto`)
+    .then((results) => results.json())
+    .then((data) => {
+       
 
-            document.querySelector('#temperature').textContent =
-                data.current.temperature_2m + " °C";
-
-            document.querySelector('#humidity').textContent =
-                "Humidity: " + data.current.relative_humidity_2m + " %";
-
-            document.querySelector('#wind').textContent =
-                "Wind Speed: " + data.current.wind_speed_10m + " km/h";
-
-            const weatherCode = data.current.weather_code;
-            icon.textContent = WEATHER_CODES[weatherCode].icon;   
-
-            loading.textContent = "";
-        }, 2000)
+        loading.textContent = "";
+    },2000);
 
 }
+ 
+
+
 
 search.addEventListener("click", searchWeather);
