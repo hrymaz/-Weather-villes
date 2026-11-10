@@ -55,10 +55,18 @@ async function searchWeather() {
 const marocserch = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&forecast_days=5&timezone=auto`)
     .then((results) => results.json())
     .then((data) => {
+    
+     document.querySelector('#city-name').textContent = cityName ; 
+     document.querySelector('#temperature').textContent = 
+     data.current.temperature_2m  + " °C" ; 
+     document.querySelector('#humidity').textContent = 
+     "Humidity:" + data.current.relative_humidity_2m  + "%" ; 
+     document.querySelector('#wind').textContent = 
+     "Wind Speed:" + data.current.wind_speed_10m + "Km/h"
        
-
+     
         loading.textContent = "";
-    },2000);
+    },4000);
 
 }
  
