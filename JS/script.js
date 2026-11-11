@@ -100,7 +100,7 @@ function displayForecast(daily) {
          
         const weather = WEATHER_CODES[daily.weather_code[i]];
         
-        let results = new Date(daily.time[i]);
+       let results = new Date(daily.time[i]);
 
        let text = results.toLocaleDateString("en-US", {
            weekday: "long",
