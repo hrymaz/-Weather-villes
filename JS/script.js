@@ -73,7 +73,7 @@ fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${l
 
         loading.textContent = "";
 
-    } , 2000);
+    } , 1500);
 }
 
 
@@ -87,12 +87,20 @@ function displayForecast(daily) {
         const iconweather = document.createElement('p')
          
         const weather = WEATHER_CODES[daily.weather_code[i]];
+        
+        let results = new Date(daily.time[i]);
 
-        data.textContent = daily.time[i]
-         
-        temperature.textContent = 
-          daily.temperature_2m_max[i] 
-          daily.temperature_2m_min[i]
+       let text = results.toLocaleDateString("en-US", {
+           weekday: "long",
+           month: "long",
+           day: "numeric"
+        });
+
+        data.textContent = text;
+
+        temperature.textContent =
+    daily.temperature_2m_max[i] + "°C / " +
+    daily.temperature_2m_min[i] + "°C";
 
     if (weather) {
         iconweather.textContent = weather.icon ; 
@@ -102,6 +110,7 @@ function displayForecast(daily) {
            card.append(data, iconweather , temperature);
            forecast.append(card);
     }
+
     
  } 
     
