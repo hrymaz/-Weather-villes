@@ -56,7 +56,8 @@ async function searchWeather() {
 fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&forecast_days=5&timezone=auto`)
     .then((results) => results.json())
     .then((data) => {
-    
+         console.log(data);
+         
         document.querySelector('#city-name').textContent = cityName; 
         document.querySelector('#temperature').textContent =
          data.current.temperature_2m + " °C"; 
@@ -67,6 +68,8 @@ fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${l
     
         const weatherCode = data.current.weather_code;
         icon.textContent = WEATHER_CODES[weatherCode].icon;
+         
+        displayForecast(data.daily)
 
         loading.textContent = "";
 
@@ -74,9 +77,33 @@ fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${l
 }
 
 
-function displayForecast() {
-    
-}
+function displayForecast(daily) {
+    forecast.textContent = "";
 
+    for (let i = 0; i < daily.time.length; i++) {
+        const card = document.createElement('div')
+        const data = document.createElement('h3')
+        const temperature =document.createElement('p')
+        const iconweather = document.createElement('p')
+         
+        const weather = WEATHER_CODES[daily.weather_code[i]];
+
+        data.textContent = daily.time[i]
+         
+        temperature.textContent = 
+          daily.temperature_2m_max[i] 
+          daily.temperature_2m_min[i]
+
+    if (weather) {
+        iconweather.textContent = weather.icon ; 
+    } else {
+        iconweather.textContent = "N/A"
+    }
+           card.append(data, iconweather , temperature);
+           forecast.append(card);
+    }
+    
+ } 
+    
 
 search.addEventListener("click", searchWeather);
