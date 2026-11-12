@@ -1,23 +1,46 @@
-# 🌤️ Weather App
+# 🌤️ Weather Villes
 
-## 📌 Description
+## 📌 Présentation du projet
 
-Weather App est une application web qui permet de rechercher une ville et d'afficher ses informations météorologiques actuelles ainsi que les prévisions des 5 prochains jours.
+**Weather Villes** est une application web qui permet de rechercher une ville et de consulter ses informations météorologiques.
 
-L'application utilise l'API **Open-Meteo** pour récupérer les données météorologiques.
+L'application affiche les conditions météorologiques actuelles ainsi que les prévisions des cinq prochains jours.
 
-## 🚀 Technologies utilisées
+Les données météorologiques sont récupérées à partir des API gratuites d'**Open-Meteo**.
 
-- HTML5
-- CSS3
-- JavaScript
-- Open-Meteo API
+## ✨ Fonctionnalités
+
+- Recherche d'une ville par son nom.
+- Récupération des coordonnées géographiques de la ville.
+- Affichage de la température actuelle en °C.
+- Affichage du taux d'humidité en %.
+- Affichage de la vitesse du vent en km/h.
+- Affichage d'une icône représentant les conditions météorologiques.
+- Prévisions météorologiques sur cinq jours.
+- Affichage des températures minimales et maximales.
+- Formatage des dates en français.
+- Indicateur de chargement pendant la récupération des données.
+- Vérification des réponses HTTP et gestion des erreurs.
+
+## 🛠️ Technologies utilisées
+
+| Technologie | Utilisation |
+|---|---|
+| HTML5 | Structure de l'application |
+| CSS3 | Mise en forme et design |
+| JavaScript | Logique et interaction |
+| Fetch API | Récupération des données |
+| Async / Await | Gestion des opérations asynchrones |
+| DOM Manipulation | Création et modification des éléments HTML |
+| Open-Meteo | Fournisseur des données météorologiques |
 
 ## 🌐 API utilisées
 
+L'application utilise deux API d'Open-Meteo.
+
 ### 1. Geocoding API
 
-Cette API permet de rechercher une ville et de récupérer ses coordonnées géographiques (latitude et longitude).
+Cette API permet de rechercher une ville et de récupérer ses coordonnées géographiques : latitude et longitude.
 
 **Endpoint :**
 
@@ -27,10 +50,21 @@ https://geocoding-api.open-meteo.com/v1/search
 
 **Paramètres utilisés :**
 
-- `name` : nom de la ville recherchée.
-- `count` : nombre de résultats.
-- `language` : langue des résultats.
-- `format` : format de réponse.
+| Paramètre | Description |
+|---|---|
+| `name` | Nom de la ville recherchée |
+| `count` | Nombre de résultats souhaités |
+| `language` | Langue des résultats |
+| `format` | Format de la réponse |
+| `countryCode` | Code du pays (MA pour le Maroc) |
+
+**Exemple de requête :**
+
+```text
+https://geocoding-api.open-meteo.com/v1/search?name=Oujda&count=10&language=en&format=json&countryCode=MA
+```
+
+L'API retourne notamment la latitude et la longitude de la ville recherchée.
 
 ### 2. Forecast API
 
@@ -44,42 +78,38 @@ https://api.open-meteo.com/v1/forecast
 
 **Paramètres utilisés :**
 
-- `latitude` : latitude de la ville.
-- `longitude` : longitude de la ville.
-- `current` : données météorologiques actuelles.
-- `daily` : prévisions météorologiques journalières.
-- `timezone` : fuseau horaire.
-
-## 📊 Données récupérées
-
-### Météo actuelle (`current`)
-
-| Propriété | Description |
+| Paramètre | Description |
 |---|---|
-| `temperature_2m` | Température actuelle en °C |
-| `relative_humidity_2m` | Humidité en % |
-| `wind_speed_10m` | Vitesse du vent en km/h |
+| `latitude` | Latitude de la ville |
+| `longitude` | Longitude de la ville |
+| `current` | Conditions météorologiques actuelles |
+| `daily` | Prévisions météorologiques journalières |
+| `forecast_days` | Nombre de jours de prévision |
+| `timezone` | Fuseau horaire |
 
-### Prévisions (`daily`)
+**Données demandées :**
 
-| Propriété | Description |
-|---|---|
-| `time` | Date de chaque journée |
-| `temperature_2m_max` | Température maximale |
-| `temperature_2m_min` | Température minimale |
-| `weather_code` | Code représentant l'état du temps |
+- `temperature_2m` : température actuelle.
+- `relative_humidity_2m` : taux d'humidité.
+- `wind_speed_10m` : vitesse du vent.
+- `weather_code` : code météorologique.
+- `temperature_2m_max` : température maximale.
+- `temperature_2m_min` : température minimale.
 
-## 📝 Exemple simplifié de réponse JSON
+## 📊 Exemple de réponse JSON
+
+Voici un exemple simplifié des données retournées par l'API Forecast :
 
 ```json
 {
-  "latitude": 34.66837,
-  "longitude": -1.9434253,
+  "latitude": 34.68,
+  "longitude": -1.91,
   "timezone": "Africa/Casablanca",
   "current": {
     "temperature_2m": 25.9,
     "relative_humidity_2m": 41,
-    "wind_speed_10m": 24.5
+    "wind_speed_10m": 24.5,
+    "weather_code": 1
   },
   "daily": {
     "time": [
@@ -94,31 +124,101 @@ https://api.open-meteo.com/v1/forecast
 }
 ```
 
-*Remarque : cet exemple est simplifié et illustratif. Les valeurs peuvent changer selon la ville et la date.*
+*Remarque : les données présentées sont illustratives. Les valeurs réelles dépendent de la ville et de la date.*
 
-## 🖥️ Affichage des données
+## ⚙️ Fonctionnement de l'application
 
-Les données récupérées sont affichées dans l'interface avec JavaScript.
+Le fonctionnement se déroule en plusieurs étapes :
 
-- **Recherche :** l'utilisateur saisit le nom d'une ville.
-- **Géolocalisation :** l'application récupère sa latitude et sa longitude grâce à la Geocoding API.
-- **Météo actuelle :** affichage de la température, de l'humidité et de la vitesse du vent.
-- **Prévisions :** affichage des températures minimales et maximales pour les 5 jours.
-- **Icônes météo :** les valeurs de `weather_code` sont associées à des icônes et des descriptions grâce à un objet JavaScript.
-- **Dates :** les dates sont formatées avec `Date` et `toLocaleDateString()`.
+**1. Recherche de la ville**
 
-Les données sont récupérées avec `fetch()`, puis converties en JSON avec `response.json()`.
+L'utilisateur saisit le nom d'une ville dans le champ de recherche.
 
-Les éléments HTML sont créés dynamiquement avec `document.createElement()` et remplis avec `textContent`.
+**2. Récupération des coordonnées**
 
-## ⚠️ Limites de l'API
+La Geocoding API recherche la ville et retourne sa latitude et sa longitude.
+
+**3. Récupération des données météorologiques**
+
+La Forecast API utilise les coordonnées pour récupérer les conditions actuelles et les prévisions sur cinq jours.
+
+**4. Affichage des résultats**
+
+JavaScript récupère les données JSON et les affiche dans la page grâce à la manipulation du DOM.
+
+Les prévisions sont générées dynamiquement avec `document.createElement()`, `textContent` et `append()`.
+
+**5. Gestion des codes météorologiques**
+
+Un objet JavaScript `WEATHER_CODES` associe chaque code météorologique à une description et une icône correspondante.
+
+**6. Formatage des dates**
+
+La méthode `toLocaleDateString()` permet d'afficher les dates en français.
+
+## ⚠️ Gestion des erreurs et limites
+
+L'application vérifie les réponses HTTP avec la propriété `response.ok`.
+
+Les erreurs possibles comprennent :
+
+- Champ de recherche vide.
+- Ville introuvable.
+- Erreur de réponse HTTP.
+- Problème de connexion Internet.
+- Indisponibilité temporaire de l'API.
+
+**Limites du projet :**
 
 - Une connexion Internet est nécessaire.
-- Le nom de la ville doit être reconnu par l'API de géocodage.
-- Les prévisions météorologiques sont estimatives et peuvent changer.
-- L'utilisation de l'API est soumise aux conditions et aux limites de service d'Open-Meteo.
-- L'API peut être temporairement indisponible.
+- La recherche est limitée au Maroc avec le paramètre `countryCode=MA`.
+- Les prévisions météorologiques sont estimatives.
+- Les données dépendent de la disponibilité du service Open-Meteo.
+- Les informations météorologiques peuvent changer.
+
+## 📁 Structure du projet
+
+```text
+Weather-villes/
+│
+├── HTML/
+│   └── index.html
+│
+├── CSS/
+│   └── style.css
+│
+├── JS/
+│   └── script.js
+│
+└── README.md
+```
+
+## 🚀 Installation et lancement
+
+**1. Cloner le projet**
+
+```bash
+git clone https://github.com/hrymaz/-Weather-villes.git
+```
+
+**2. Ouvrir le dossier**
+
+```bash
+cd -Weather-villes
+```
+
+**3. Lancer l'application**
+
+Ouvrir `HTML/index.html` avec l'extension Live Server de Visual Studio Code.
+
+L'application s'ouvre ensuite dans le navigateur.
+
+## 🔗 Liens du projet
+
+- **GitHub :** https://github.com/hrymaz/-Weather-villes
 
 ## 👨‍💻 Auteur
 
 **Mohamed Hrymaz** 🇲🇦
+
+Projet réalisé dans le cadre de l'apprentissage du développement web et de JavaScript.
