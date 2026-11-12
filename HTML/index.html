@@ -1,41 +1,43 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Application Météo</title>
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
 
 <body>
 
     <div class="container">
-        <h1>Weather App 🌤️</h1>
+        <h1>Application Météo 🌤️</h1>
 
         <div class="search">
-            <input type="text" id="city" placeholder="Enter city name">
-            <button id="search">Search</button>
+            <input type="text" id="city" placeholder="Entrez le nom d'une ville">
+            <button id="search">Rechercher</button>
             <p id="loading"></p>
         </div>
     </div>
+
     <div class="weather">
-        <h2 id="city-name">City Name</h2>
+        <h2 id="city-name">Nom de la ville</h2>
         <h1 id="temperature">0 °C</h1>
-        <p id="humidity">Humidity: 0 %</p>
-        <p id="wind">Wind Speed: 0 km/h</p>
+        <p id="humidity">Humidité : 0 %</p>
+        <p id="wind">Vitesse du vent : 0 km/h</p>
         <p id="icon">☀️</p>
     </div>
+
     <div id="error-container" style="display: none;">
         <p id="error-message"></p>
         <button id="retry-btn">Réessayer</button>
     </div>
-    <div id="forecast">
 
+    <div id="forecast">
     </div>
 
-
     <script src="../JS/script.js"></script>
-</body>
 
+</body>
 </html>

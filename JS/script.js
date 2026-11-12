@@ -102,7 +102,7 @@ function displayForecast(daily) {
         
        let results = new Date(daily.time[i]);
 
-       let text = results.toLocaleDateString("en-US", {
+       let text = results.toLocaleDateString("fr-FR", {
            weekday: "long",
            month: "long",
            day: "numeric"
