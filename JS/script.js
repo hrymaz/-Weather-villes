@@ -42,8 +42,8 @@ async function searchWeather() {
         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=10&language=en&format=json&countryCode=MA`);
         
      
-        if (!res.ok) {
-            throw new Error("Erreur de réseau ou API indisponible");
+         if (res.status >= 299 && res.status <= 500) {
+            throw new Error("Une erreur est survenue lors de la recherche");
         }
 
         const data = await res.json();
@@ -60,10 +60,9 @@ async function searchWeather() {
 
         const weather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&forecast_days=5&timezone=auto`);
 
-        if (!weather.ok) {
-            throw new Error("Erreur lors de la récupération de la météo");
+         if (weather.status >= 299 && weather.status <= 500) {
+            throw new Error("Une erreur est survenue lors de la récupération de la météo");
         }
-
         const weatherData = await weather.json();
         console.log(weatherData);
 
