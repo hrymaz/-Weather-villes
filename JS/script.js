@@ -42,10 +42,14 @@ async function searchWeather() {
         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=10&language=en&format=json&countryCode=MA`);
         
      
-         if (res.status >= 299 && res.status <= 500) {
-            throw new Error("Une erreur est survenue lors de la recherche");
-        }
+         if (!res.ok) {
+         if (res.status === 429) {
+         throw new Error("Quota atteint. Réessayez plus tard.");
+          }
 
+         throw new Error("Service météo indisponible.");
+         }
+ 
         const data = await res.json();
 
         if (!data.results || data.results.length === 0) {
@@ -60,9 +64,13 @@ async function searchWeather() {
 
         const weather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&forecast_days=5&timezone=auto`);
 
-         if (weather.status >= 299 && weather.status <= 500) {
-            throw new Error("Une erreur est survenue lors de la récupération de la météo");
-        }
+         if (!weather.ok) {
+         if (weather.status === 429) {
+         throw new Error("Quota météo atteint. Réessayez plus tard.");
+         }
+
+          throw new Error("Impossible de récupérer la météo.");
+         }
         const weatherData = await weather.json();
         console.log(weatherData);
 
