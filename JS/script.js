@@ -4,6 +4,11 @@ const loading = document.querySelector('#loading')
 const icon = document.querySelector('#icon');
 const forecast = document.querySelector('#forecast')
 
+const error = document.querySelector('#error-container')
+const message = document.querySelector('#error-message')
+const button = document.querySelector('#retry-btn')
+
+
 const WEATHER_CODES = {
     0: { label: "Ciel dégagé", icon: "☀️" },
     1: { label: "Plutôt dégagé", icon: "🌤️" },
@@ -37,6 +42,13 @@ async function searchWeather() {
     }
 
    loading.textContent = "Loading...";
+    error.style.display = "none";
+    button.disabled = true;
+    search.disabled = true;
+
+    console.log(error);
+    
+
 
     try {
         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=10&language=en&format=json&countryCode=MA`);
@@ -90,48 +102,56 @@ async function searchWeather() {
          
         displayForecast(weatherData.daily);
 
-    } catch (error) {
+    } catch (err) {
+        error.style.display = "block";
+        message.textContent = err.message;
+
+    } finally {
         loading.textContent = "";
-        alert(error.message); 
+        button.disabled = false;
+        search.disabled = false;
     }
-}
-
-function displayForecast(daily) {
-    forecast.textContent = "";
-
-    for (let i = 0; i < daily.time.length; i++) {
-        const card = document.createElement('div')
-        const data = document.createElement('h3')
-        const temperature =document.createElement('p')
-        const iconweather = document.createElement('p')
+ }
+ 
+ 
+ function displayForecast(daily) {
+     forecast.textContent = "";
+     
+     for (let i = 0; i < daily.time.length; i++) {
+         const card = document.createElement('div')
+         const data = document.createElement('h3')
+         const temperature =document.createElement('p')
+         const iconweather = document.createElement('p')
          
-        const weather = WEATHER_CODES[daily.weather_code[i]];
+         const weather = WEATHER_CODES[daily.weather_code[i]];
+         
+         let results = new Date(daily.time[i]);
+         
+         let text = results.toLocaleDateString("fr-FR", {
+             weekday: "long",
+             month: "long",
+             day: "numeric"
+            });
+            
+            data.textContent = text;
+            
+            temperature.textContent =
+            daily.temperature_2m_max[i] + "°C / " +
+            daily.temperature_2m_min[i] + "°C";
+            
+            if (weather) {
+                iconweather.textContent = weather.icon ; 
+            } else {
+                iconweather.textContent = "N/A"
+            }
+            card.append(data, iconweather , temperature);
+            forecast.append(card);
+        }
         
-       let results = new Date(daily.time[i]);
-
-       let text = results.toLocaleDateString("fr-FR", {
-           weekday: "long",
-           month: "long",
-           day: "numeric"
-        });
-
-        data.textContent = text;
-
-        temperature.textContent =
-    daily.temperature_2m_max[i] + "°C / " +
-    daily.temperature_2m_min[i] + "°C";
-
-    if (weather) {
-        iconweather.textContent = weather.icon ; 
-    } else {
-        iconweather.textContent = "N/A"
-    }
-           card.append(data, iconweather , temperature);
-           forecast.append(card);
-    }
-
+        
+    } 
     
- } 
-    
+    button.addEventListener("click" , searchWeather)
+    console.log(button);
 
-search.addEventListener("click", searchWeather);
+    search.addEventListener("click", searchWeather);
