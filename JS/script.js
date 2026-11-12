@@ -39,7 +39,7 @@ async function searchWeather() {
    loading.textContent = "Loading...";
 
     try {
-        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=10&language=en&format=json&countryCode=MA`);
+        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=10&language=en&format=json&countryCode=MA`);
         
      
         if (!res.ok) {
