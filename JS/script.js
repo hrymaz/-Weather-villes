@@ -55,10 +55,6 @@ async function searchWeather() {
         
      
          if (!res.ok) {
-         if (res.status === 429) {
-         throw new Error("Quota atteint. Réessayez plus tard.");
-          }
-
          throw new Error("Service météo indisponible.");
          }
  
