@@ -81,16 +81,16 @@ async function searchWeather() {
          }
         const weatherData = await weather.json();
         console.log(weatherData);
-
-        loading.textContent = "";
-        document.querySelector('#city-name').textContent = cityName; 
-        document.querySelector('#temperature').textContent =
-         weatherData.current.temperature_2m + " °C"; 
-        document.querySelector('#humidity').textContent =
-         "Humidity: " + weatherData.current.relative_humidity_2m + "%"; 
-        document.querySelector('#wind').textContent =
-         "Wind Speed: " + weatherData.current.wind_speed_10m + " Km/h";
-    
+        
+            loading.textContent = "";
+            document.querySelector('#city-name').textContent = cityName; 
+            document.querySelector('#temperature').textContent =
+            weatherData.current.temperature_2m + " °C"; 
+            document.querySelector('#humidity').textContent =
+            "Humidity: " + weatherData.current.relative_humidity_2m + "%"; 
+            document.querySelector('#wind').textContent =
+            "Wind Speed: " + weatherData.current.wind_speed_10m + " Km/h";
+            
 
 
         const weatherCode = weatherData.current.weather_code;
